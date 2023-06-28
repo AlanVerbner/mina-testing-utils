@@ -1,6 +1,7 @@
 import { supportProperBool } from "./properBool";
 import { supportProperField } from "./properField";
 import { supportProperPublicKey } from "./properPublicKey";
+import { supportProperPrivateKey } from "./properPrivateKey";
 
 
 export function minaChaiMatchers(
@@ -10,4 +11,5 @@ export function minaChaiMatchers(
   supportProperField(chai.Assertion);
   supportProperBool(chai.Assertion);
   supportProperPublicKey(chai.Assertion);
+  supportProperPrivateKey(chai.Assertion);
 }

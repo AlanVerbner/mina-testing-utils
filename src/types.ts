@@ -14,9 +14,10 @@ declare namespace Chai {
     //     customErrorName: string
     //   ): CustomErrorAssertion;
     //   hexEqual(other: string): void;
-      properField: void;
-      properBool: void;
-      properPublicKey: void;
+      field: any;
+      bool: any;
+      publicKey: any;
+      privateKey: any;
     //   properHex(length: number): void;
     //   changeEtherBalance(
     //     account: any,
