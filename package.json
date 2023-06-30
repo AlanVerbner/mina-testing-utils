@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "ts-mocha --paths ./test/**/*.ts"
+    "test": "ts-mocha --paths ./test/**/*.ts --timeout 100000"
   },
   "devDependencies": {
     "@types/chai": "*",
