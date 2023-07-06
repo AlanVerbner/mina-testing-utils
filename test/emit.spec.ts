@@ -26,7 +26,7 @@ describe("Emit event", () => {
         zkApp = new TestZkApp(zkAppAddress);
       });
 
-  it.only("Expect to emit event", async () => {
+  it("Expect to emit event", async () => {
     await deploy(zkApp, zkAppPrivateKey, sender, senderKey);
     console.log("Deployed. Calling eventEmitter...");
     let tx = await Mina.transaction(sender, async () => {
