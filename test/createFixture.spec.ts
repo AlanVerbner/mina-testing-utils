@@ -45,12 +45,15 @@ describe("Fixture creation and usage", () => {
         zkAppPrivateKey: PrivateKey,
         zkAppAddress: PublicKey,
         sender: PublicKey,
+        LocalChain: any,
+        initialLocalChain: any,
         senderKey: PrivateKey;
     
         let executionCounter = 0;
 
         const setupTest = createFixture(async () => {
             let Local = Mina.LocalBlockchain({ proofsEnabled: false });
+            initialLocalChain = Local;
             Mina.setActiveInstance(Local);
             sender = Local.testAccounts[0].publicKey;
             senderKey = Local.testAccounts[0].privateKey;
@@ -58,19 +61,23 @@ describe("Fixture creation and usage", () => {
             zkAppAddress = zkAppPrivateKey.toPublicKey();
             zkApp = new TestZkApp(zkAppAddress);
             executionCounter++;
+            return Local;
           });
     
-        beforeEach(() => {
-            setupTest();
+        beforeEach(async () => {
+            LocalChain = await setupTest();
         });
     
       it("First test", async () => {
+        expect(LocalChain).to.equal(initialLocalChain);
         expect(executionCounter).to.equal(1);
       });
       it("Second test", async () => {
+        expect(LocalChain).to.equal(initialLocalChain);
         expect(executionCounter).to.equal(1);
       });
       it("Third test", async () => {
+        expect(LocalChain).to.equal(initialLocalChain);
         expect(executionCounter).to.equal(1);
       });
     });
