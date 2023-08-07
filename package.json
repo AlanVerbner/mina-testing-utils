@@ -1,16 +1,20 @@
 {
+  "name": "mina-chai-matchers",
+  "main": "dist/index.js",
+  "types": "dist/types.d.ts",
   "scripts": {
-    "test": "ts-mocha --paths ./test/**/*.ts --timeout 100000"
+    "test": "ts-mocha --paths ./test/**/*.ts --timeout 100000",
+    "build": "rm -rf ./dist && tsc && cp package.json ./dist && cp src/lib/types.d.ts ./dist/types.d.ts"
   },
   "devDependencies": {
-    "@types/chai": "*",
+    "@types/chai": "",
     "@types/mocha": "^10.0.1",
-    "chai": "*",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1"
   },
-  "dependencies": {
-    "node": "^20.3.1",
-    "snarkyjs": "^0.11.0"
+  "dependencies": {},
+  "peerDependencies": {
+    "snarkyjs": "^0.11.0",
+    "chai": "^4.2.0"
   }
 }

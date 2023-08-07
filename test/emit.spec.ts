@@ -1,6 +1,9 @@
-import { expect, AssertionError } from "chai";
+import chai, { expect, AssertionError } from "chai";
 
-import "../src/internal/add-chai-matchers";
+import { configMatchers } from "../src/lib";
+configMatchers(chai);
+
+
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, shutdown } from "snarkyjs";
 import { TestZkApp } from "../src/contracts/test";
 

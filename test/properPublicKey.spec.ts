@@ -1,6 +1,8 @@
-import { expect, AssertionError } from "chai";
+import chai, { expect, AssertionError } from "chai";
 
-import "../src/internal/add-chai-matchers";
+import { configMatchers } from "../src/lib/index";
+configMatchers(chai);
+
 import { PublicKey } from "snarkyjs";
 
 // @dev It is not recommended to check for inequality (eg. expect(publicKey1).not.to.be(publicKey2)),

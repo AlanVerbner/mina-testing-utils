@@ -1,7 +1,10 @@
-import { expect, AssertionError } from "chai";
+import chai, { expect, AssertionError } from "chai";
 
-import "../src/internal/add-chai-matchers";
+import { configMatchers } from "../src/lib/index";
+configMatchers(chai);
+
 import { Field } from "snarkyjs";
+
 
 // @dev It is not recommended to check for inequality (eg. expect(field1).not.to.be(field2)),
 // so equality assertion is supported but inequality is not.
@@ -11,6 +14,7 @@ import { Field } from "snarkyjs";
 describe("Proper field", () => {
   it("Expect to be proper field", async () => {
     const field = Field(10);
+    expect("hola").to.be.field;
     expect(field).to.be.field;
   });
   it("Expect to be equal fields", async () => {
