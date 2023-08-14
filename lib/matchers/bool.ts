@@ -15,7 +15,7 @@ import { expect } from "@jest/globals";
  */
 
 const doMatch = (actual: Bool, expected: boolean) => {
-  if (!actual.toBoolean)
+  if (!(actual instanceof Bool))
     return {
       message: () => `Expected ${actual} to be a Bool`,
       pass: false,
