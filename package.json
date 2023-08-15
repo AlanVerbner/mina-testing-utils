@@ -4,11 +4,14 @@
   "description": "Handful MINA testing utilx to be used alongside with zkapp-cli generated projects",
   "main": "lib/index.js",
   "types": "lib/types.ts",
+  "bin": "cli/cli.cjs",
   "type": "module",
   "scripts": {
     "test": "node --experimental-wasm-threads node_modules/jest/bin/jest.js",
     "lint": "tslint -c tslint.json 'lib/**/*.ts' 'test/**/*.ts'",
-    "build": "rimraf ./dist && tsc && cp package* ./dist/ && cp lib/types.ts ./dist/lib/",
+    "build": "rimraf ./dist && npm run build:lib && npm run build:cli && cp package* ./dist/",
+    "build:lib": "tsc -p ./tsconfig.lib.json  && cp lib/types.ts ./dist/lib/",
+    "build:cli": "cp -r ./cli ./dist/",
     "dev-pack": "npm run build && npm pack ./dist/"
   },
   "author": "Globant",
