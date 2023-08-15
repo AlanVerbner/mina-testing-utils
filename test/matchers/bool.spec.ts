@@ -1,8 +1,14 @@
-import { Bool } from "snarkyjs";
+import { Bool, Field } from "snarkyjs";
 import "../../lib/index"
 import "../../lib/types"
 
 describe("boolMatchers", () => {
+  describe("Wrong Type", () => {
+    it("should not pass when variable is not Bool", () => {
+      const value = new Field(1);
+      expect(() => expect(value).toBeTrue()).toThrowError("Expected 1 to be a Bool");
+    });
+  });
   describe("toBeTrue", () => {
     it("should pass when the value is true", () => {
       const value = new Bool(true);
