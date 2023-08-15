@@ -14,7 +14,7 @@ npm --save-dev install mina-jest-matchers #TODO
 
 ## Using Jest matchers
 
-Import it in your tests as:
+Import it in your tests as follows:
 
 ```typescript
 // Impor to extend the matchers
@@ -26,9 +26,11 @@ describe('my test', () => {
 
 		// Matchers are automatically recognized by jest
     expect(Field(19)).toEqual(19);
-    expect(app.someBooleanState.get()).toBeFalse()
+    expect(app.someBooleanState).toBeFalse()
   })
 ```
+
+You can refer to [contract.test.ts](./test/contract/test-contract.ts) for a running example.
 
 # Development
 

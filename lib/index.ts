@@ -1,4 +1,4 @@
-import configFieldMatchers from "./matchers/field";
+import configFieldMatchers from "./matchers/common-types";
 import configBoolMatchers  from "./matchers/bool";
 
 configFieldMatchers();

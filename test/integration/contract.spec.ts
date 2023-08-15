@@ -3,14 +3,14 @@ import { TestContract } from "../contract/test-contract";
 import "../../lib/index";
 
 describe("readState", () => {
-  let zkApp: TestContract,
-    zkAppPrivateKey: PrivateKey,
-    zkAppAddress: PublicKey,
-    sender: PublicKey,
-    senderKey: PrivateKey;
+  let zkApp: TestContract;
+  let zkAppPrivateKey: PrivateKey;
+  let zkAppAddress: PublicKey;
+  let sender: PublicKey;
+  let senderKey: PrivateKey;
 
   beforeEach(async () => {
-    let Local = Mina.LocalBlockchain({ proofsEnabled: false });
+    const Local = Mina.LocalBlockchain({ proofsEnabled: false });
     Mina.setActiveInstance(Local);
     sender = Local.testAccounts[0].publicKey;
     senderKey = Local.testAccounts[0].privateKey;
@@ -21,7 +21,7 @@ describe("readState", () => {
 
   it("should read a boolean state", async () => {
     await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
-    expect(zkApp.boolState.get()).toBeTrue();
+    expect(zkApp.boolState).toEqualBool(true);
   });
 });
 
@@ -32,7 +32,7 @@ async function deploy(
   sender: PublicKey,
   senderKey: PrivateKey
 ) {
-  let tx = await Mina.transaction(sender, () => {
+  const tx = await Mina.transaction(sender, () => {
     AccountUpdate.fundNewAccount(sender);
     zkApp.deploy();
     zkApp.update(Bool(bool));
