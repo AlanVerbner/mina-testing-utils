@@ -1,4 +1,4 @@
-import { Bool, Field } from "snarkyjs";
+import { Bool, Field, Int64, PrivateKey, PublicKey, Scalar, UInt32, UInt64 } from "snarkyjs";
 import configFieldMatchers from "../../lib/matchers/common-types";
 
 configFieldMatchers();
@@ -46,6 +46,90 @@ describe("Common Types", () => {
         fail("Should have thrown");
       } catch (e) {
         expect(e.message).toBe("Expected invalid to be a Bool");
+      }
+    })
+  });
+
+  describe("toEqualPrivateKey", () => {
+    it("should pass when pks are equal", () => {
+      const scalar = Scalar.random();
+      const pk1 = new PrivateKey(scalar);
+      const pk2 = new PrivateKey(scalar);
+      expect(pk1).toEqualPrivateKey(pk2);
+    });
+
+    it("should fail when pks are not equal", () => {
+      const scalar1 = Scalar.random();
+      const scalar2 = Scalar.random();
+      const pk1 = new PrivateKey(scalar1);
+      const pk2 = new PrivateKey(scalar2);
+      expect(pk1).not.toEqualPrivateKey(pk2);
+    });
+
+    it("Should fail if not proper type", () => {
+      const pk = PrivateKey.random();
+      try {
+        expect("invalid").toEqualPrivateKey(pk);
+        fail("Should have thrown");
+      } catch (e) {
+        expect(e.message).toBe("Expected invalid to be a PrivateKey");
+      }
+    })
+  });
+
+  describe("toEqualPublicKey", () => {
+    it("should pass when pks are equal", () => {
+      const privateKey = PrivateKey.random();
+      const pk1 = privateKey.toPublicKey();
+      const pk2 = privateKey.toPublicKey();
+      expect(pk1).toEqualPublicKey(pk2);
+    });
+
+    it("should fail when pks are not equal", () => {
+      const privateKey1 = PrivateKey.random();
+      const privateKey2 = PrivateKey.random();
+      const pk1 = privateKey1.toPublicKey();
+      const pk2 = privateKey2.toPublicKey();
+      expect(pk1).not.toEqualPublicKey(pk2);
+    });
+
+    it("Should fail if not proper type", () => {
+      const privateKey = PrivateKey.random();
+      const pk = privateKey.toPublicKey();
+      try {
+        expect("invalid").toEqualPublicKey(pk);
+        fail("Should have thrown");
+      } catch (e) {
+        expect(e.message).toBe("Expected invalid to be a PublicKey");
+      }
+    })
+  });
+
+  describe("toEqualInt64", () => {
+    it("should pass when ints are equal", () => {
+      const int1 = Int64.fromField(Field(10));
+      const int2 = Int64.fromField(Field(10));
+      expect(int1).toEqualInt64(int2);
+    });
+
+    it("should pass when ints are equal using a string", () => {
+      const int = Int64.fromField(Field(10));
+      expect(int).toEqualInt64("10");
+    });
+
+    it("should fail when fields are not equal", () => {
+      const int1 = Int64.fromField(Field(20));
+      const int2 = Int64.fromField(Field(10));
+      expect(int1).not.toEqualInt64(int2);
+    });
+
+    it("Should fail if not proper type", () => {
+      const int = Int64.fromField(Field(10));
+      try {
+        expect("invalid").toEqualInt64(int);
+        fail("Should have thrown");
+      } catch (e) {
+        expect(e.message).toBe("Expected invalid to be a Int64");
       }
     })
   });
