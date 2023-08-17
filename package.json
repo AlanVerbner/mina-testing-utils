@@ -26,5 +26,10 @@
   },
   "peerDependencies": {
     "snarkyjs": "0.12.*"
+  },
+  "dependencies": {
+    "cfonts": "3.2.0",
+    "chalk": "4.1.2",
+    "ora": "5.4.1"
   }
 }

@@ -1,6 +1,10 @@
 #!/usr/bin/env node --experimental-vm-modules --experimental-wasm-threads
 
-const repl = require("repl");
+const chalk = require("chalk");
+const { printBanner } = require("./gui.cjs");
+const configureRepl = require("./repl.cjs");
+
+printBanner();
 
 /**
  * Generates a key pair using snarkyjs.
@@ -29,45 +33,4 @@ function dynamicImport(absolutePath) {
 }
 
 // Start a REPL session with the given options.
-const myREPL = repl.start({
-  prompt: "mina-testing-utils> ",
-  ignoreUndefined: true,
-  replMode: repl.REPL_MODE_STRICT,
-  require,
-});
-
-// Set the await flag to true in the REPL context.
-myREPL.context.await = true;
-
-// Add extra context to the REPL context.
-const extraContext = {
-  mina: {
-    loadContractFromPath: dynamicImport,
-  },
-};
-Object.assign(myREPL.context, extraContext);
-
-// Define a custom command for the REPL.
-myREPL.defineCommand("loadMina", {
-  help: "Loads snarkyjs",
-  action() {
-    this.clearBufferedCommand();
-    dynamicImport("snarkyjs").then((snarkyjs) => {
-      const local = snarkyjs.Mina.LocalBlockchain({
-        proofsEnabled: false,
-      });
-      snarkyjs.Mina.setActiveInstance(local);
-
-      const minaContext = {
-        snarkyjs,
-        local,
-        testAccounts: local.testAccounts,
-        genKeyPair: genKeyPair(snarkyjs),
-      };
-
-      Object.assign(this.context.mina, minaContext);
-
-      this.displayPrompt();
-    });
-  },
-});
+configureRepl(dynamicImport, genKeyPair);
