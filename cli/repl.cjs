@@ -1,5 +1,6 @@
 const repl = require("repl");
 const ora = require("ora");
+const homedir = require("os").homedir();
 
 const { printLoadMinaErrorMsg, minaLoadedOkMsg } = require("./gui.cjs");
 
@@ -11,6 +12,12 @@ function configureRepl(dynamicImport, genKeyPair) {
     replMode: repl.REPL_MODE_STRICT,
     require,
   });
+
+  // Set command history file.
+  REPL.setupHistory(`${homedir}/.mina-testing-utils-history`, (err) => {
+    if (err) console.warn("Repl history could not be loaded.");
+  });
+
   // Set the await flag to true in the REPL context.
   REPL.context.await = true;
   // Add extra context to the REPL context.
@@ -71,7 +78,7 @@ function configureRepl(dynamicImport, genKeyPair) {
           REPL.eval = evalFn;
         })
         .catch((err) => {
-        console.log(err);
+          console.log(err);
           spinner.fail("Error while loading snarkyjs");
         });
     },
