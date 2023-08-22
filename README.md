@@ -32,6 +32,87 @@ describe('my test', () => {
 
 You can refer to [contract.test.ts](./test/contract/test-contract.ts) for a running example.
 
+## Using the interactive debugger
+
+After installing the package, you can run the interactive debugger as follows:
+
+```typescript 
+import { Field, SmartContract, state, State, method } from 'snarkyjs';
+
+/**
+ * Basic Example
+ * See https://docs.minaprotocol.com/zkapps for more info.
+ *
+ * The Add contract initializes the state variable 'num' to be a Field(1) value by default when deployed.
+ * When the 'update' method is called, the Add contract adds Field(2) to its 'num' contract state.
+ *
+ * This file is safe to delete and replace with your own contract.
+ */
+export class Add extends SmartContract {
+  @state(Field) num = State<Field>();
+
+  init() {
+    super.init();
+    this.num.set(Field(1));
+  }
+
+  @method update() {
+    const currentState = this.num.getAndAssertEquals();
+    const newState = currentState.add(2);
+    this.num.set(newState);
+  }
+}
+```
+
+```bash
+❯ npx mina-testing-utils
+
+
+ ███╗   ███╗ ██╗ ███╗   ██╗  █████╗      ████████╗ ███████╗ ███████╗ ████████╗ ██╗ ███╗   ██╗  ██████╗      ██╗   ██╗ ████████╗ ██╗ ██╗      ███████╗
+ ████╗ ████║ ██║ ████╗  ██║ ██╔══██╗     ╚══██╔══╝ ██╔════╝ ██╔════╝ ╚══██╔══╝ ██║ ████╗  ██║ ██╔════╝      ██║   ██║ ╚══██╔══╝ ██║ ██║      ██╔════╝
+ ██╔████╔██║ ██║ ██╔██╗ ██║ ███████║        ██║    █████╗   ███████╗    ██║    ██║ ██╔██╗ ██║ ██║  ███╗     ██║   ██║    ██║    ██║ ██║      ███████╗
+ ██║╚██╔╝██║ ██║ ██║╚██╗██║ ██╔══██║        ██║    ██╔══╝   ╚════██║    ██║    ██║ ██║╚██╗██║ ██║   ██║     ██║   ██║    ██║    ██║ ██║      ╚════██║
+ ██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║  ██║        ██║    ███████╗ ███████║    ██║    ██║ ██║ ╚████║ ╚██████╔╝     ╚██████╔╝    ██║    ██║ ███████╗ ███████║
+ ╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝  ╚═╝        ╚═╝    ╚══════╝ ╚══════╝    ╚═╝    ╚═╝ ╚═╝  ╚═══╝  ╚═════╝       ╚═════╝     ╚═╝    ╚═╝ ╚══════╝ ╚══════╝
+
+
+
+  
+
+Please load the Mina REPL context by executing .loadMina before running any commands.
+
+
+  
+mina-testing-utils> .load
+load      loadMina
+
+mina-testing-utils> .loadMina
+✔ Snarky loaded successfully! You can access it through the mina object.
+
+mina-testing-utils> let { Add } = await import("/Users/alan.verbner/Projects/globant/mina/04-zkapp-browser-ui/contracts/build/src/Add.js")
+
+mina-testing-utils> let { priv: zkAppPrivateKey, pub: zkAppAddress } = mina.genKeyPair();
+
+mina-testing-utils> let zkApp = new Add(zkAppAddress);
+
+mina-testing-utils> let { privateKey: deployerKey, publicKey: deployerAccount } = mina.testAccounts[0];
+
+mina-testing-utils> let txn = await mina.snarkyjs.Mina.transaction(deployerAccount, () => {
+  mina.snarkyjs.AccountUpdate.fundNewAccount(deployerAccount);
+  zkApp.deploy();
+});
+
+mina-testing-utils> await txn.prove();
+mina-testing-utils> await txn.sign([deployerKey, zkAppPrivateKey]).send();
+
+mina-testing-utils> console.log("Stored number in state is: ", zkApp.num.get().toString())
+Stored number in state is:  1
+```
+
+See it in action:
+
+[![asciicast](https://asciinema.org/a/603288.svg)](https://asciinema.org/a/603288)
+
 # Development
 
 ## Requirements
