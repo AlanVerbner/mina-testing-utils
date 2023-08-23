@@ -1,13 +1,13 @@
 import { expect } from "@jest/globals";
-import { Bool, Field, PrivateKey, PublicKey, Int64, State } from "snarkyjs";
-import { BoolLike, FieldLike, Int64Like } from "../types";
+import { Bool, Field, PublicKey, Int64, State, UInt64, UInt32 } from "snarkyjs";
+import { BoolLike, FieldLike, Int64Like, UInt32Like, UInt64Like } from "../types";
 
 /**
  * Extracts a value from a state object or returns the value itself if it's not a state object.
  * @param val - The value to extract from.
  * @returns The extracted value.
  */
-function extractFromState<T extends BoolLike | FieldLike | PrivateKey | PublicKey | Int64Like>(
+function extractFromState<T extends BoolLike | FieldLike | PublicKey | Int64Like>(
   val: T & State<T>
 ): T {
   return val.get ? val.get() : val;
@@ -71,32 +71,7 @@ export default () => {
      * Checks if the actual value is equal to the expected value for a given field.
      * @template T - The type of the field.
      * @param {T & State<T>} actual - The actual field value to compare.
-     * @param {PrivateKey} value - The expected field value to compare.
-     * @returns {MatcherResult} - The result of the comparison.
-     */
-    toEqualPrivateKey<T extends PrivateKey>(actual: T & State<T>, value: PrivateKey) {
-      /* Check if actual is a State object */
-      const toMatch: PrivateKey = extractFromState(actual);
-
-      if (!(toMatch instanceof PrivateKey)) {
-        return {
-          message: () => `Expected ${actual} to be a PrivateKey`,
-          pass: false,
-        };
-      }
-
-      const pass: boolean = toMatch.equals(value).toBoolean();
-      const message = () => `Expected ${actual} to equal ${value}`;
-      return {
-        message,
-        pass,
-      };
-    },
-    /**
-     * Checks if the actual value is equal to the expected value for a given field.
-     * @template T - The type of the field.
-     * @param {T & State<T>} actual - The actual field value to compare.
-     * @param {PrivateKey} value - The expected field value to compare.
+     * @param {PublicKey} value - The expected field value to compare.
      * @returns {MatcherResult} - The result of the comparison.
      */
     toEqualPublicKey<T extends PublicKey>(actual: T & State<T>, value: PublicKey) {
@@ -136,6 +111,56 @@ export default () => {
       }
 
       const pass: boolean = toMatch.equals(Int64.from(value)).toBoolean();
+      const message = () => `Expected ${actual} to equal ${value}`;
+      return {
+        message,
+        pass,
+      };
+    },
+    /**
+     * Checks if the actual value is equal to the expected value for a given field.
+     * @template T - The type of the field.
+     * @param {T & State<T>} actual - The actual field value to compare.
+     * @param {UInt64Like} value - The expected field value to compare.
+     * @returns {MatcherResult} - The result of the comparison.
+     */
+    toEqualUInt64<T extends UInt64>(actual: T & State<T>, value: UInt64Like) {
+      /* Check if actual is a State object */
+      const toMatch: UInt64 = extractFromState(actual);
+
+      if (!(toMatch instanceof UInt64)) {
+        return {
+          message: () => `Expected ${actual} to be a UInt64`,
+          pass: false,
+        };
+      }
+
+      const pass: boolean = toMatch.equals(UInt64.from(value)).toBoolean();
+      const message = () => `Expected ${actual} to equal ${value}`;
+      return {
+        message,
+        pass,
+      };
+    },
+    /**
+     * Checks if the actual value is equal to the expected value for a given field.
+     * @template T - The type of the field.
+     * @param {T & State<T>} actual - The actual field value to compare.
+     * @param {UInt32Like} value - The expected field value to compare.
+     * @returns {MatcherResult} - The result of the comparison.
+     */
+    toEqualUInt32<T extends UInt32>(actual: T & State<T>, value: UInt32Like) {
+      /* Check if actual is a State object */
+      const toMatch: UInt32 = extractFromState(actual);
+
+      if (!(toMatch instanceof UInt32)) {
+        return {
+          message: () => `Expected ${actual} to be a UInt32`,
+          pass: false,
+        };
+      }
+
+      const pass: boolean = toMatch.equals(UInt32.from(value)).toBoolean();
       const message = () => `Expected ${actual} to equal ${value}`;
       return {
         message,

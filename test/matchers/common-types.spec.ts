@@ -50,33 +50,6 @@ describe("Common Types", () => {
     })
   });
 
-  describe("toEqualPrivateKey", () => {
-    it("should pass when pks are equal", () => {
-      const scalar = Scalar.random();
-      const pk1 = new PrivateKey(scalar);
-      const pk2 = new PrivateKey(scalar);
-      expect(pk1).toEqualPrivateKey(pk2);
-    });
-
-    it("should fail when pks are not equal", () => {
-      const scalar1 = Scalar.random();
-      const scalar2 = Scalar.random();
-      const pk1 = new PrivateKey(scalar1);
-      const pk2 = new PrivateKey(scalar2);
-      expect(pk1).not.toEqualPrivateKey(pk2);
-    });
-
-    it("Should fail if not proper type", () => {
-      const pk = PrivateKey.random();
-      try {
-        expect("invalid").toEqualPrivateKey(pk);
-        fail("Should have thrown");
-      } catch (e) {
-        expect(e.message).toBe("Expected invalid to be a PrivateKey");
-      }
-    })
-  });
-
   describe("toEqualPublicKey", () => {
     it("should pass when pks are equal", () => {
       const privateKey = PrivateKey.random();
@@ -130,6 +103,58 @@ describe("Common Types", () => {
         fail("Should have thrown");
       } catch (e) {
         expect(e.message).toBe("Expected invalid to be a Int64");
+      }
+    })
+  });
+
+  describe("toEqualUInt64", () => {
+    const uint64 = UInt64.fromFields([Field(10)]);
+    it("should pass when uints are equal", () => {
+      expect(uint64).toEqualUInt64(Field(10));
+    });
+
+    it("should pass when uints are equal using a string", () => {
+      const uint64 = UInt64.fromFields([Field(10)]);
+      expect(uint64).toEqualUInt64("10");
+    });
+
+    it("should fail when fields are not equal", () => {
+      const uint64 = UInt64.fromFields([Field(20)]);
+      expect(uint64).not.toEqualUInt64(Field(10));
+    });
+
+    it("Should fail if not proper type", () => {
+      try {
+        expect("invalid").toEqualUInt64(Field(20));
+        fail("Should have thrown");
+      } catch (e) {
+        expect(e.message).toBe("Expected invalid to be a UInt64");
+      }
+    })
+  });
+
+  describe("toEqualUInt64", () => {
+    const uint32 = UInt32.fromFields([Field(10)]);
+    it("should pass when uints are equal", () => {
+      expect(uint32).toEqualUInt32(Field(10));
+    });
+
+    it("should pass when uints are equal using a string", () => {
+      const uint32 = UInt32.fromFields([Field(10)]);
+      expect(uint32).toEqualUInt32("10");
+    });
+
+    it("should fail when fields are not equal", () => {
+      const uint32 = UInt32.fromFields([Field(20)]);
+      expect(uint32).not.toEqualUInt32(Field(10));
+    });
+
+    it("Should fail if not proper type", () => {
+      try {
+        expect("invalid").toEqualUInt32(Field(20));
+        fail("Should have thrown");
+      } catch (e) {
+        expect(e.message).toBe("Expected invalid to be a UInt32");
       }
     })
   });
