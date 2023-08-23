@@ -108,19 +108,19 @@ describe("Common Types", () => {
   });
 
   describe("toEqualUInt64", () => {
-    const u64 = UInt64.fromFields([Field(10)]);
+    const num1 = UInt64.fromFields([Field(10)]);
     it("should pass when uints are equal", () => {
-      expect(u64).toEqualUInt64(Field(10));
+      expect(num1).toEqualUInt64(Field(10));
     });
 
     it("should pass when uints are equal using a string", () => {
-      const u64 = UInt64.fromFields([Field(10)]);
-      expect(u64).toEqualUInt64("10");
+      const num1 = UInt64.fromFields([Field(10)]);
+      expect(num1).toEqualUInt64("10");
     });
 
     it("should fail when fields are not equal", () => {
-      const u64 = UInt64.fromFields([Field(20)]);
-      expect(u64).not.toEqualUInt64(Field(10));
+      const num1 = UInt64.fromFields([Field(20)]);
+      expect(num1).not.toEqualUInt64(Field(10));
     });
 
     it("Should fail if not proper type", () => {
@@ -134,19 +134,19 @@ describe("Common Types", () => {
   });
 
   describe("toEqualUInt64", () => {
-    const u32 = UInt32.fromFields([Field(10)]);
+    const num1 = UInt32.fromFields([Field(10)]);
     it("should pass when uints are equal", () => {
-      expect(u32).toEqualUInt32(Field(10));
+      expect(num1).toEqualUInt32(Field(10));
     });
 
     it("should pass when uints are equal using a string", () => {
-      const u32 = UInt32.fromFields([Field(10)]);
-      expect(u32).toEqualUInt32("10");
+      const num1 = UInt32.fromFields([Field(10)]);
+      expect(num1).toEqualUInt32("10");
     });
 
     it("should fail when fields are not equal", () => {
-      const u32 = UInt32.fromFields([Field(20)]);
-      expect(u32).not.toEqualUInt32(Field(10));
+      const num1 = UInt32.fromFields([Field(20)]);
+      expect(num1).not.toEqualUInt32(Field(10));
     });
 
     it("Should fail if not proper type", () => {
