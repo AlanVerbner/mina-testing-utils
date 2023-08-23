@@ -1,4 +1,4 @@
-import { Bool, Field, Int64, PublicKey, SmartContract, UInt32, UInt64 } from "snarkyjs";
+import { Bool, Field, Int64, PublicKey, Signature, UInt32, UInt64 } from "snarkyjs";
 
 export type BoolLike = Bool | boolean;
 export type FieldLike = Field | string | number | bigint;
@@ -24,6 +24,15 @@ declare global {
     interface Matchers<R> {
       toBeTrue(): R;
       toBeFalse(): R;
+    }
+  }
+}
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toEqualSignature(value: Signature): R;
+      signerToBe(publicKey: PublicKey, msg: Field[])
     }
   }
 }
