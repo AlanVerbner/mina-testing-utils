@@ -108,8 +108,8 @@ describe("Common Types", () => {
   });
 
   describe("toEqualUInt64", () => {
-    const num1 = UInt64.fromFields([Field(10)]);
     it("should pass when uints are equal", () => {
+      const num1 = UInt64.fromFields([Field(10)]);
       expect(num1).toEqualUInt64(Field(10));
     });
 
@@ -134,8 +134,8 @@ describe("Common Types", () => {
   });
 
   describe("toEqualUInt64", () => {
-    const num1 = UInt32.fromFields([Field(10)]);
     it("should pass when uints are equal", () => {
+      const num1 = UInt32.fromFields([Field(10)]);
       expect(num1).toEqualUInt32(Field(10));
     });
 
