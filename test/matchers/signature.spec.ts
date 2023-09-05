@@ -1,4 +1,4 @@
-import { Bool, CircuitString, Field, PrivateKey, PublicKey, Signature } from "snarkyjs";
+import { CircuitString, PrivateKey, Signature } from "snarkyjs";
 import "../../lib/index"
 
 describe("signatureMatchers", () => {

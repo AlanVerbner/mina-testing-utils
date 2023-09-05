@@ -1,4 +1,4 @@
-import { Bool, Field, Int64, PrivateKey, PublicKey, Scalar, UInt32, UInt64 } from "snarkyjs";
+import { Bool, Field, Int64, PrivateKey, UInt32, UInt64 } from "snarkyjs";
 import configFieldMatchers from "../../lib/matchers/common-types";
 
 configFieldMatchers();
