@@ -33,6 +33,8 @@ declare global {
     interface Matchers<R> {
       toEqualSignature(value: Signature): R;
       signerToBe(publicKey: PublicKey, msg: Field[])
+      toFailWithMessage(message: string)
+      toFail()
     }
   }
 }

@@ -11,6 +11,10 @@ class TestContract extends SmartContract {
   @method update(value: Bool) {
     this.boolState.set(value);
   }
+
+  @method failIfFalse(value: Bool) {
+    value.assertEquals(true, "custom error message");
+  }
 }
 
 export { TestContract };
