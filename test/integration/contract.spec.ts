@@ -2,7 +2,7 @@ import { AccountUpdate, Bool, Mina, PrivateKey, PublicKey } from "snarkyjs";
 import { TestContract } from "../contract/test-contract";
 import "../../lib/index";
 
-describe("readState", () => {
+describe.only("readState", () => {
   let zkApp: TestContract;
   let zkAppPrivateKey: PrivateKey;
   let zkAppAddress: PublicKey;
@@ -24,26 +24,46 @@ describe("readState", () => {
     expect(zkApp.boolState).toEqualBool(true);
   });
 
-
   it("should revert with custom message if it fails an assertion", async () => {
     await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
-    expect(() => zkApp.failIfFalse(Bool(false))).toFailWithMessage("custom error message");
-  });
-  it("should revert if it fails an assertion", async () => {
-    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
-    expect(() => zkApp.failIfFalse(Bool(false))).toFail();
+    return expect(() => zkApp.failIfFalse(Bool(false))).toFailWithMessage("custom error message");
   });
 
+  it("should revert if it fails an assertion", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(() => zkApp.failIfFalse(Bool(false))).toFail();
+  });
 
   it("should not revert with custom message if it does not fail an assertion", async () => {
     await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
-    expect(() => zkApp.failIfFalse(Bool(true))).not.toFailWithMessage("custom error message");
+    return expect(() => zkApp.failIfFalse(Bool(true))).not.toFailWithMessage("custom error message");
   });
 
   it("should not revert if it does not fail an assertion", async () => {
     await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
-    expect(() => zkApp.failIfFalse(Bool(true))).not.toFail();
+    return expect(() => zkApp.failIfFalse(Bool(true))).not.toFail();
   });
+
+  it("should revert with custom message if it fails an assertion", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(Mina.transaction(sender,() => zkApp.failIfFalse(Bool(false)))).toFailWithMessage("custom error message");
+  });
+
+  it("should revert if it fails an assertion", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(Mina.transaction(sender,() => zkApp.failIfFalse(Bool(false)))).toFail();
+  });
+
+  it("should not revert with custom message if it does not fail an assertion", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(Mina.transaction(sender,() => zkApp.failIfFalse(Bool(true)))).not.toFailWithMessage("custom error message");
+  });
+
+  it("should not revert if it does not fail an assertion", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(Mina.transaction(sender,() => zkApp.failIfFalse(Bool(true)))).not.toFail();
+  });
+  
 });
 
 async function deploy(

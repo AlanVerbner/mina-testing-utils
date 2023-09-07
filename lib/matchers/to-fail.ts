@@ -1,5 +1,13 @@
-import { Bool } from "snarkyjs";
+import { Mina } from "snarkyjs";
 import { expect } from "@jest/globals";
+
+function isPromise(p): p is Promise<unknown> {
+  if (typeof p === 'object' && typeof p.then === 'function') {
+    return true;
+  }
+
+  return false;
+}
 
 /**
  * TODO Docs
@@ -7,10 +15,11 @@ import { expect } from "@jest/globals";
 
 export default () => {
   expect.extend({
-    toFailWithMessage(transaction: () => any, expectedError: string) {
+    async toFailWithMessage(transaction: () => void | Promise<Mina.Transaction>, expectedError: string) {
       let result;
       try {
-        transaction();
+        if (isPromise(transaction)) await transaction;
+        else transaction();
         result = {error: false, message: ""};
       } catch (e) {
         result = {error: true, message: e.message.split('\n')[0]};
@@ -23,10 +32,11 @@ export default () => {
           message: () => `${base}${suffix}`
       };
     },
-    toFail(transaction: () => any) {
+    async toFail(transaction: () => any) {
       let result;
       try {
-        transaction();
+        if (isPromise(transaction)) await transaction;
+        else transaction();
         result = {error: false};
       } catch (e) {
         result = {error: true};
