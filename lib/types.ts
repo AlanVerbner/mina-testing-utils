@@ -1,4 +1,4 @@
-import { Bool, Field, Int64, PublicKey, Signature, UInt32, UInt64 } from "snarkyjs";
+import { Bool, Field, Int64, PublicKey, Sign, Signature, UInt32, UInt64 } from "snarkyjs";
 
 export type BoolLike = Bool | boolean;
 export type FieldLike = Field | string | number | bigint;
@@ -34,7 +34,11 @@ declare global {
       toEqualSignature(value: Signature): R;
       signerToBe(publicKey: PublicKey, msg: Field[])
       toFailWithMessage(message: string)
-      toFail()
+      toFail(),
+      toKeepBalanceUnchanged(publicKey: PublicKey, tokenId: FieldLike)
+      toIncreaseBalance(publicKey: PublicKey, tokenId: FieldLike, amount: FieldLike)
+      toDecreaseBalance(publicKey: PublicKey, tokenId: FieldLike, amount: FieldLike)
+      toChangeBalance(publicKey: PublicKey, tokenId: FieldLike, amount: FieldLike, sign: Sign)
     }
   }
 }

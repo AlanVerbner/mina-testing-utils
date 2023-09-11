@@ -1,6 +1,7 @@
 import { expect } from "@jest/globals";
 import { Bool, Field, PublicKey, Int64, State, UInt64, UInt32 } from "snarkyjs";
 import { BoolLike, FieldLike, Int64Like, UInt32Like, UInt64Like } from "../types";
+import { matchesField } from "../utils";
 
 /**
  * Extracts a value from a state object or returns the value itself if it's not a state object.
@@ -60,7 +61,8 @@ export default () => {
         };
       }
 
-      const pass: boolean = toMatch.equals(Field.from(value)).toBoolean();
+      const pass: boolean = matchesField(value, toMatch);
+
       const message = () => `Expected ${actual} to equal ${value}`;
       return {
         message,
