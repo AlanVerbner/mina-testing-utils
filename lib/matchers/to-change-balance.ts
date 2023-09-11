@@ -10,15 +10,15 @@ type SignedUInt64 = {
   sgn: Sign
 }
 
-const signsAreEqual = (s1: Sign, s2: Sign) => 
+const signsAreEqual = (s1: Sign, s2: Sign) =>
   s1.isPositive().equals(s2.isPositive()).toBoolean();
 const sumSignedField = (s1: SignedUInt64, s2: SignedUInt64): SignedUInt64 => {
-  if (signsAreEqual(s1.sgn, s2.sgn)) 
+  if (signsAreEqual(s1.sgn, s2.sgn))
     return {
       magnitude: s1.magnitude.add(s2.magnitude),
       sgn: s1.sgn
     };
-  if (s1.magnitude.greaterThan(s2.magnitude).toBoolean()) 
+  if (s1.magnitude.greaterThan(s2.magnitude).toBoolean())
     return {
       magnitude: s1.magnitude.sub(s2.magnitude),
       sgn: s1.sgn
@@ -43,8 +43,8 @@ const toChangeBalance = (transaction: Mina.Transaction, publicKey: PublicKey, to
     magnitude: UInt64.from(0),
     sgn: Sign.one
   });
-    
-  const pass = matchesField(amount, sumChanges.magnitude.value) && 
+
+  const pass = matchesField(amount, sumChanges.magnitude.value) &&
                 (matchesField(amount, 0) || // if amount is 0, sign does not matter
                   signsAreEqual(sign, sumChanges.sgn));
 

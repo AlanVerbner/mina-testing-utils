@@ -15,7 +15,7 @@ class TestContract extends SmartContract {
   @method failIfFalse(value: Bool) {
     value.assertEquals(true, "custom error message");
   }
-  
+
   @method payout(amount: UInt64) {
     this.send({ to: this.sender, amount });
   }

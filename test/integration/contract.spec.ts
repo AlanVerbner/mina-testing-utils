@@ -1,6 +1,7 @@
-import { AccountUpdate, Bool, Mina, PrivateKey, PublicKey } from "snarkyjs";
+import { AccountUpdate, Bool, Field, Mina, PrivateKey, PublicKey, UInt64 } from "snarkyjs";
 import { TestContract } from "../contract/test-contract";
 import "../../lib/index";
+import { parseMina } from "../../lib/utils";
 
 describe.only("readState", () => {
   let zkApp: TestContract;
@@ -63,7 +64,51 @@ describe.only("readState", () => {
     await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
     return expect(Mina.transaction(sender,() => zkApp.failIfFalse(Bool(true)))).not.toFail();
   });
-  
+
+  it("should not change balance with a simple transaction", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(await Mina.transaction(sender,() => zkApp.failIfFalse(Bool(true)))).toKeepBalanceUnchanged(zkApp.address, 1);
+  });
+
+  it("should change balance of mina with a simple transfer", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    return expect(await Mina.transaction(sender,() =>
+    {
+      AccountUpdate.fundNewAccount(sender, 10)
+      zkApp.failIfFalse(Bool(true));
+    })).toDecreaseBalance(sender, 1, parseMina(10));
+  });
+
+  it("should change balance of mina with a simple transfer from contract", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() =>
+    {
+      zkApp.payout(UInt64.from(10));
+    });
+    expect(tx).toIncreaseBalance(sender, 1, 10);
+    return expect(tx).toDecreaseBalance(zkApp.address, 1, 10);
+  });
+
+  it("should change balance of mina with a contract call that makes two sends", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() =>
+    {
+      zkApp.payoutTwice(UInt64.from(10));
+    });
+    expect(tx).toIncreaseBalance(sender, 1, 20);
+    return expect(tx).toDecreaseBalance(zkApp.address, 1, 20);
+  });
+
+  it("should change balance of mina with a contract call that makes two sends and a simple transfer", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() =>
+    {
+      zkApp.payoutTwice(UInt64.from(parseMina(10)));
+      AccountUpdate.fundNewAccount(sender, 10)
+    });
+    expect(tx).toIncreaseBalance(sender, 1, parseMina(10));
+    return expect(tx).toDecreaseBalance(zkApp.address, 1, parseMina(20));
+  });
 });
 
 async function deploy(

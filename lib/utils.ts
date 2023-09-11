@@ -13,7 +13,7 @@ export function extractFromState<T extends Signature | BoolLike | FieldLike>(
   }
 
 /**
- * 
+ *
  * @param expected FieldLike object that can be casted to Field
  * @param actual Field object
  * @returns true if both match
@@ -23,7 +23,7 @@ export function matchesField(expected: FieldLike, actual: FieldLike): boolean {
 }
 
 /**
- * 
+ *
  */
 export function parseMina(amount: FieldLike): Field {
   return Field.from(amount).mul(new Field("1000000000"))
