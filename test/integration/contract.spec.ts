@@ -1,17 +1,18 @@
-import { AccountUpdate, Bool, Field, Mina, PrivateKey, PublicKey, UInt64 } from "snarkyjs";
+import { AccountUpdate, Bool, Field, Mina, PrivateKey, PublicKey, UInt32, UInt64 } from "snarkyjs";
 import { TestContract } from "../contract/test-contract";
 import "../../lib/index";
 import { parseMina } from "../../lib/utils";
 
-describe.only("readState", () => {
+describe("readState", () => {
   let zkApp: TestContract;
   let zkAppPrivateKey: PrivateKey;
   let zkAppAddress: PublicKey;
   let sender: PublicKey;
   let senderKey: PrivateKey;
+  let Local;
 
   beforeEach(async () => {
-    const Local = Mina.LocalBlockchain({ proofsEnabled: false });
+    Local = Mina.LocalBlockchain({ proofsEnabled: false });
     Mina.setActiveInstance(Local);
     sender = Local.testAccounts[0].publicKey;
     senderKey = Local.testAccounts[0].privateKey;
@@ -108,6 +109,47 @@ describe.only("readState", () => {
     });
     expect(tx).toIncreaseBalance(sender, 1, parseMina(10));
     return expect(tx).toDecreaseBalance(zkApp.address, 1, parseMina(20));
+  });
+
+  it("should emit event", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() => {
+      zkApp.eventEmittingMethod();
+    });
+    await tx.prove();
+    await tx.sign([zkAppPrivateKey, senderKey]).send();
+    return expect(zkApp).toEmitEvent('simpleEvent', sender);
+  });
+
+
+  it("should emit complex event", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() => {
+      zkApp.complexEventEmittingMethod();
+    });
+    await tx.prove();
+    await tx.sign([zkAppPrivateKey, senderKey]).send();
+    return expect(zkApp).toEmitEvent('complexEvent', {
+      publicKey: sender,
+      field: new Field(0),
+      bool: Bool(true),
+      uint64: UInt64.from(0),
+    });
+  });
+
+  it("should not emit complex event with different events", async () => {
+    await deploy(zkApp, zkAppPrivateKey, true, sender, senderKey);
+    const tx = await Mina.transaction(sender,() => {
+      zkApp.complexEventEmittingMethod();
+    });
+    await tx.prove();
+    await tx.sign([zkAppPrivateKey, senderKey]).send();
+    return expect(zkApp).not.toEmitEvent('complexEvent', {
+      publicKey: sender,
+      field: new Field(0),
+      bool: Bool(true),
+      uint64: UInt64.from(1),
+    });
   });
 });
 
