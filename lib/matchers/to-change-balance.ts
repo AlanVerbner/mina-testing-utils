@@ -54,21 +54,53 @@ const toChangeBalance = (transaction: Mina.Transaction, publicKey: PublicKey, to
   };
 };
 
-/**
- * TODO Docs
- */
 
+/**
+ * Defines Jest matchers for common types.
+ */
 export default () => {
   expect.extend({
+    /**
+     * Checks if the account received tokens in the transaction
+     * @param {Transaction} transaction - Transaction expected to change balance
+     * @param {PublicKey} account - Account expected to change
+     * @param {FieldLike} tokenId - Token Id expected to change(usually 1)
+     * @param {FieldLike} amount - Amount expected to increase
+     * @returns {MatcherResult} - The result of the matcher.
+     */
     toIncreaseBalance(transaction: Mina.Transaction, account: PublicKey, tokenId: FieldLike, amount: FieldLike) {
       return toChangeBalance(transaction, account, tokenId, amount, Sign.one);
     },
+    /**
+     * Checks if the account had the same tokens after the transaction
+     * @param {Transaction} transaction - Transaction expected to keep balance unchanged
+     * @param {PublicKey} account - Account expected to keep balance unchanged
+     * @param {FieldLike} tokenId - Token Id expected to keep balance unchanged(usually 1)
+     * @returns {MatcherResult} - The result of the matcher.
+     */
     toKeepBalanceUnchanged(transaction: Mina.Transaction, account: PublicKey, tokenId: FieldLike) {
       return toChangeBalance(transaction, account, tokenId, 0, Sign.one);
     },
+    /**
+     * Checks if the account sent tokens in the transaction
+     * @param {Transaction} transaction - Transaction expected to change balance
+     * @param {PublicKey} account - Account expected to change
+     * @param {FieldLike} tokenId - Token Id expected to change(usually 1)
+     * @param {FieldLike} amount - Amount expected to increase
+     * @returns {MatcherResult} - The result of the matcher.
+     */
     toDecreaseBalance(transaction: Mina.Transaction, account: PublicKey, tokenId: FieldLike, amount: FieldLike) {
       return toChangeBalance(transaction, account, tokenId, amount, Sign.minusOne);
     },
+    /**
+     * Checks if the account sent/redeceived tokens in the transaction
+     * @param {Transaction} transaction - Transaction expected to change balance
+     * @param {PublicKey} account - Account expected to change
+     * @param {FieldLike} tokenId - Token Id expected to change(usually 1)
+     * @param {FieldLike} amount - Amount expected to change
+     * @param {Sign} sign - One if expected to increase, minus one if expected to decrease
+     * @returns {MatcherResult} - The result of the matcher.
+     */
     toChangeBalance
   });
 };

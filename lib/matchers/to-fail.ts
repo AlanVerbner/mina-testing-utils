@@ -10,11 +10,15 @@ function isPromise(p): p is Promise<unknown> {
 }
 
 /**
- * TODO Docs
+ * Defines Jest matchers for common types.
  */
-
 export default () => {
   expect.extend({
+    /**
+     * Checks if the transaction fails with a certain message
+     * @param {Function | Promise<Mina.Transaction>} transaction - Transaction that should fail. It could be a proper transaction or a callback function used by a transaction
+     * @param {string} expectedError - Error that is expected to be thrown by the transaction
+     */
     async toFailWithMessage(transaction: () => void | Promise<Mina.Transaction>, expectedError: string) {
       let result;
       try {
@@ -32,6 +36,10 @@ export default () => {
           message: () => `${base}${suffix}`
       };
     },
+    /**
+     * Checks if the transaction fails with any message
+     * @param {Function | Promise<Mina.Transaction>} transaction - Transaction that should fail. It could be a proper transaction or a callback function used by a transaction
+     */
     async toFail(transaction: () => any) {
       let result;
       try {

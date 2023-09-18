@@ -1,10 +1,6 @@
 import { Bool, Mina, Provable, ProvablePure, PublicKey, SmartContract, UInt32 } from "snarkyjs";
 import { expect } from "@jest/globals";
 
-/**
- * TODO: Documentation
- */
-
 const dataToString = (data: any): string => {
   if (data.toBase58) return data.toBase58();
   return data.toString()
@@ -28,8 +24,18 @@ const argsMatch = (expectedArgs: any, actualArgs: any): boolean => {
 }
 
 
+/**
+ * Defines Jest matchers for common types.
+ */
 export default () => {
   expect.extend({
+    /**
+     * Checks if the smart contract emitted an event in its entire history with the expected type and args
+     * @param {SmartContract} zkApp - Smart contract that should emit the event
+     * @param {string} type - Name of the type of the event
+     * @param {any} args - Args expected in the event
+     * @returns {MatcherResult} - The result of the matcher.
+     */
     async toEmitEvent(zkApp: SmartContract, type: string, args: any) {
         const events = await zkApp.fetchEvents(UInt32.from(0));
         const foundEvent = events.find(e => e.type === type && argsMatch(args, e.event.data));

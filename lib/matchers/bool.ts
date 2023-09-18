@@ -2,8 +2,6 @@ import { Bool } from "snarkyjs";
 import { expect } from "@jest/globals";
 
 /**
- * FILEPATH: /Users/alan.verbner/Projects/globant/mina/mina-jest-matchers/lib/matchers/bool.ts
- *
  * Defines Jest matchers for boolean values.
  *
  * @remarks
