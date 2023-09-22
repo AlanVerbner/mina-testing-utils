@@ -5,8 +5,17 @@
 This repository contains a set of utilities for testing Mina zkapps:
 
 - Custom jest matchers
+- An interactive debugger to interact with locally deployed contracts
+- A contract (gates) sizer 
+
+# Requirements
+
+- `node +18` (nvm recommended)
+- `snarkyjs@0.12.*`
 
 # Installing
+
+In order to use this tool, you should install it as a dev dependency on your existing project, for example, one created using `zkcli-app`:
 
 ```bash
 npm --save-dev install mina-jest-matchers #TODO
@@ -65,7 +74,7 @@ export class Add extends SmartContract {
 ```
 
 ```bash
-❯ npx mina-testing-utils
+❯ npx mina-testing-utils repl
 
 
  ███╗   ███╗ ██╗ ███╗   ██╗  █████╗      ████████╗ ███████╗ ███████╗ ████████╗ ██╗ ███╗   ██╗  ██████╗      ██╗   ██╗ ████████╗ ██╗ ██╗      ███████╗
@@ -83,13 +92,10 @@ Please load the Mina REPL context by executing .loadMina before running any comm
 
 
   
-mina-testing-utils> .load
-load      loadMina
-
 mina-testing-utils> .loadMina
 ✔ Snarky loaded successfully! You can access it through the mina object.
 
-mina-testing-utils> let { Add } = await import("/Users/alan.verbner/Projects/globant/mina/04-zkapp-browser-ui/contracts/build/src/Add.js")
+mina-testing-utils> let { Add } = await import("/Projects/yourProject/build/src/Add.js")
 
 mina-testing-utils> let { priv: zkAppPrivateKey, pub: zkAppAddress } = mina.genKeyPair();
 
@@ -112,6 +118,20 @@ Stored number in state is:  1
 See it in action:
 
 [![asciicast](https://asciinema.org/a/603288.svg)](https://asciinema.org/a/603288)
+
+## Using the contract sizer
+
+This tool also allows you to keep track of the amount of gates the contracts you create are creating thus giving an idea of the complexity it will involve using them. To try it, run:
+
+```bash
+npx mina-testing-utils circuits-sizer build/src/test-contract.js
+```
+
+Bear in mind you need to compile them first (if `zkapp-cli` is being used, it should be `npm run build`).
+
+See it in action:
+
+[![asciicast](https://asciinema.org/a/13DtDxa6nId5AtEhDcvZ3IyDf.svg)](https://asciinema.org/a/13DtDxa6nId5AtEhDcvZ3IyDf)
 
 # Development
 

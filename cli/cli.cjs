@@ -1,36 +1,29 @@
 #!/usr/bin/env node --experimental-vm-modules --experimental-wasm-threads
 
-const chalk = require("chalk");
+const { Command } = require("commander");
+const { name, description, version } = require("../package.json");
+const repl = require("./repl.cjs");
 const { printBanner } = require("./gui.cjs");
-const configureRepl = require("./repl.cjs");
+const circuitsSizer = require("./circuits-sizer.cjs");
 
-printBanner();
+const program = new Command();
 
-/**
- * Generates a key pair using snarkyjs.
- * @param {Object} snarkyjs - The snarkyjs library.
- * @returns {Object} - An object containing the private and public keys.
- */
-function genKeyPair(snarkyjs) {
-  return () => {
-    const priv = snarkyjs.PrivateKey.random();
-    const pub = priv.toPublicKey();
+program.name(name).description(description).version(version);
 
-    return {
-      priv,
-      pub,
-    };
-  };
-}
+program
+  .command("repl")
+  .description("Runs Mina Testing Utils repl")
+  .action((str, options) => {
+    printBanner();
+    repl();
+  });
 
-/**
- * Dynamically imports a module from an absolute path.
- * @param {string} absolutePath - The absolute path of the module to import.
- * @returns {Promise} - A promise that resolves to the imported module.
- */
-function dynamicImport(absolutePath) {
-  return import(absolutePath);
-}
+program
+  .command("circuits-sizer")
+  .description("Analyzes contracts gates amount")
+  .argument("<files...>", "Specify the file")
+  .action((files) => {
+    return circuitsSizer(files);
+  });
 
-// Start a REPL session with the given options.
-configureRepl(dynamicImport, genKeyPair);
+program.parse();
