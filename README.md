@@ -1,7 +1,5 @@
 # Mina Testing Utils
 
-⚠️ This todo is incomplete and not ready for use ⚠  ️
-
 This repository contains a set of utilities for testing Mina zkapps:
 
 - Custom jest matchers
@@ -18,7 +16,7 @@ This repository contains a set of utilities for testing Mina zkapps:
 In order to use this tool, you should install it as a dev dependency on your existing project, for example, one created using `zkcli-app`:
 
 ```bash
-npm --save-dev install mina-jest-matchers #TODO
+npm --save-dev install @atixlabs/mina-testing-utils 
 ```
 
 ## Using Jest matchers
@@ -26,8 +24,8 @@ npm --save-dev install mina-jest-matchers #TODO
 Import it in your tests as follows:
 
 ```typescript
-// Impor to extend the matchers
-import 'mina-jest-matchers';
+// Import to extend the matchers
+import '@atixlabs/mina-testing-utils';
 
 describe('my test', () => {
 
