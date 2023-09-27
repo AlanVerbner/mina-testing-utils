@@ -12,7 +12,9 @@
     "build": "rimraf ./dist && npm run build:lib && npm run build:cli && cp package* ./dist/",
     "build:lib": "tsc -p ./tsconfig.lib.json  && cp lib/types.ts ./dist/lib/",
     "build:cli": "cp -r ./cli ./dist/",
-    "dev-pack": "npm run build && npm pack ./dist/"
+    "dev-pack": "npm run build && npm pack ./dist/",
+    "release:alpha": "git cz bump --prerelease alpha --changelog",
+    "release": "git cz bump --changelog"
   },
   "author": "Atixlabs",
   "license": "MIT",
