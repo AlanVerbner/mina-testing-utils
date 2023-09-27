@@ -1,6 +1,6 @@
 {
   "name": "@atixlabs/mina-testing-utils",
-  "version": "0.0.1",
+  "version": "0.0.1a1",
   "description": "Handful MINA testing utilx to be used alongside with zkapp-cli generated projects",
   "main": "lib/index.js",
   "types": "lib/types.ts",
