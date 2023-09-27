@@ -1,5 +1,5 @@
 {
-  "name": "mina-testing-utils",
+  "name": "@atixlabs/mina-testing-utils",
   "version": "0.0.1",
   "description": "Handful MINA testing utilx to be used alongside with zkapp-cli generated projects",
   "main": "lib/index.js",
@@ -14,7 +14,7 @@
     "build:cli": "cp -r ./cli ./dist/",
     "dev-pack": "npm run build && npm pack ./dist/"
   },
-  "author": "Globant",
+  "author": "Atixlabs",
   "license": "MIT",
   "devDependencies": {
     "@jest/globals": "29.6.2",
