@@ -1,6 +1,6 @@
 {
-  "name": "mina-testing-utils",
-  "version": "0.0.1",
+  "name": "@atixlabs/mina-testing-utils",
+  "version": "0.0.1a1",
   "description": "Handful MINA testing utilx to be used alongside with zkapp-cli generated projects",
   "main": "lib/index.js",
   "types": "lib/types.ts",
@@ -12,9 +12,11 @@
     "build": "rimraf ./dist && npm run build:lib && npm run build:cli && cp package* ./dist/",
     "build:lib": "tsc -p ./tsconfig.lib.json  && cp lib/types.ts ./dist/lib/",
     "build:cli": "cp -r ./cli ./dist/",
-    "dev-pack": "npm run build && npm pack ./dist/"
+    "dev-pack": "npm run build && npm pack ./dist/",
+    "release:alpha": "git cz bump --prerelease alpha --changelog",
+    "release": "git cz bump --changelog"
   },
-  "author": "Globant",
+  "author": "Atixlabs",
   "license": "MIT",
   "devDependencies": {
     "@jest/globals": "29.6.2",
