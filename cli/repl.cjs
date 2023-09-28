@@ -1,6 +1,7 @@
 const repl = require("repl");
-const ora = require("ora");
+const Spinnies = require("spinnies");
 const homedir = require("os").homedir();
+const spinnies = new Spinnies();
 
 const { printLoadMinaErrorMsg, minaLoadedOkMsg } = require("./gui.cjs");
 
@@ -50,10 +51,9 @@ function configureRepl(dynamicImport, genKeyPair) {
   REPL.defineCommand("loadMina", {
     help: "Loads snarkyjs",
     action() {
-      const spinner = ora({
+      spinnies.add("load", {
         text: "Loading snarkyjs...",
-        discardStdin: false,
-      }).start();
+      });
       this.clearBufferedCommand();
       dynamicImport("snarkyjs")
         .then((snarkyjs) => {
@@ -71,7 +71,7 @@ function configureRepl(dynamicImport, genKeyPair) {
 
           Object.assign(this.context.mina, minaContext);
 
-          spinner.succeed(minaLoadedOkMsg());
+          spinnies.succeed("load", minaLoadedOkMsg());
           console.log();
           // Restore eval function.
           this.displayPrompt();
@@ -79,10 +79,37 @@ function configureRepl(dynamicImport, genKeyPair) {
         })
         .catch((err) => {
           console.log(err);
-          spinner.fail("Error while loading snarkyjs");
+          spinnies.fail("load", "Error while loading snarkyjs");
         });
     },
   });
 }
 
-module.exports = configureRepl;
+/**
+ * Generates a key pair using snarkyjs.
+ * @param {Object} snarkyjs - The snarkyjs library.
+ * @returns {Object} - An object containing the private and public keys.
+ */
+function genKeyPair(snarkyjs) {
+  return () => {
+    const priv = snarkyjs.PrivateKey.random();
+    const pub = priv.toPublicKey();
+
+    return {
+      priv,
+      pub,
+    };
+  };
+}
+
+/**
+ * Dynamically imports a module from an absolute path.
+ * @param {string} absolutePath - The absolute path of the module to import.
+ * @returns {Promise} - A promise that resolves to the imported module.
+ */
+function dynamicImport(absolutePath) {
+  return import(absolutePath);
+}
+
+// Start a REPL session with the given options.
+module.exports = () => configureRepl(dynamicImport, genKeyPair);

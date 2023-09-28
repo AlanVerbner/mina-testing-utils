@@ -1,4 +1,4 @@
-import { AccountUpdate, Bool, Field, Mina, PrivateKey, PublicKey, UInt32, UInt64 } from "snarkyjs";
+import { AccountUpdate, Bool, Field, Mina, PrivateKey, PublicKey, SmartContract, UInt32, UInt64 } from "snarkyjs";
 import { TestContract } from "../contract/test-contract";
 import "../../lib/index";
 import { parseMina } from "../../lib/utils";
