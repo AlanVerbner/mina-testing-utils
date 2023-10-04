@@ -14,7 +14,7 @@ describe("Common Types", () => {
     });
 
     it("should fail when fields are not equal", () => {
-      expect(Field(42)).not.toEqual(Field(43));
+      expect(Field(42)).not.toEqualField(Field(43));
     });
 
     it("Should fail if not proper type", () => {

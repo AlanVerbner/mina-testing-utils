@@ -31,6 +31,8 @@
   "dependencies": {
     "cfonts": "3.2.0",
     "chalk": "4.1.2",
-    "ora": "5.4.1"
+    "clone": "^2.1.2",
+    "ora": "5.4.1",
+    "snarkyjs": "^0.12.1"
   }
 }

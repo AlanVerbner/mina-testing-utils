@@ -1,4 +1,4 @@
-import { Bool, Field, Int64, Mina, PublicKey, Sign, Signature, SmartContract, UInt32, UInt64 } from "snarkyjs";
+import { Bool, Field, Int64, PublicKey, Sign, Signature, UInt32, UInt64 } from "snarkyjs";
 
 export type BoolLike = Bool | boolean;
 export type FieldLike = Field | string | number | bigint;

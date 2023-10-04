@@ -2,6 +2,7 @@ import { Bool, Field, PublicKey, SmartContract, State, UInt64, method, provableP
 
 class TestContract extends SmartContract {
   @state(Bool) boolState = State<Bool>();
+  @state(Field) fieldState = State<Field>();
 
   events = {
     simpleEvent: PublicKey,
@@ -46,6 +47,10 @@ class TestContract extends SmartContract {
       bool: Bool(true),
       uint64: UInt64.from(0),
     });
+  }
+
+  @method setField(f: Field) {
+    this.fieldState.set(f);
   }
 }
 
