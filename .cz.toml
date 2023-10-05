@@ -2,5 +2,5 @@
 name = "cz_conventional_commits"
 tag_format = "$version"
 version_provider = "npm2"
-version = "0.0.1a1"
+version = "0.0.1a2"
 update_changelog_on_bump = true

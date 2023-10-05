@@ -1,3 +1,10 @@
+## 0.0.1a2 (2023-10-05)
+
+### Feat
+
+- publish
+- gate sizing implementation (#8)
+
 ## 0.0.1a1 (2023-09-27)
 
 ### Feat
