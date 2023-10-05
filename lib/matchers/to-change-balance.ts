@@ -1,4 +1,4 @@
-import { Field, Mina, PublicKey, Sign, UInt64 } from "snarkyjs";
+import { Field, Mina, PublicKey, Sign, UInt64 } from "o1js";
 import { expect } from "@jest/globals";
 import { FieldLike } from "../types";
 import { matchesField } from "../utils";

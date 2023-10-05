@@ -1,4 +1,4 @@
-import { Field, Signature, State } from "snarkyjs";
+import { Field, Signature, State } from "o1js";
 import { BoolLike, FieldLike } from "./types";
 
 /**

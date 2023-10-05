@@ -9,7 +9,7 @@ This repository contains a set of utilities for testing Mina zkapps:
 # Requirements
 
 - `node +18` (nvm recommended)
-- `snarkyjs@0.12.*`
+- `o1js@0.12.*`
 
 # Installing
 
@@ -44,7 +44,7 @@ You can refer to [contract.test.ts](./test/contract/test-contract.ts) for a runn
 After installing the package, you can run the interactive debugger as follows:
 
 ```typescript 
-import { Field, SmartContract, state, State, method } from 'snarkyjs';
+import { Field, SmartContract, state, State, method } from 'o1js';
 
 /**
  * Basic Example
@@ -101,8 +101,8 @@ mina-testing-utils> let zkApp = new Add(zkAppAddress);
 
 mina-testing-utils> let { privateKey: deployerKey, publicKey: deployerAccount } = mina.testAccounts[0];
 
-mina-testing-utils> let txn = await mina.snarkyjs.Mina.transaction(deployerAccount, () => {
-  mina.snarkyjs.AccountUpdate.fundNewAccount(deployerAccount);
+mina-testing-utils> let txn = await mina.o1js.Mina.transaction(deployerAccount, () => {
+  mina.o1js.AccountUpdate.fundNewAccount(deployerAccount);
   zkApp.deploy();
 });
 
@@ -151,7 +151,7 @@ npm test
 
 ## Trying on a zkapp-cli local app
 
-_Note: npm link seems to be messing around with snarkyjs import resulting in multiple errors therefore follow this steps in order to use a local version of this lib:_
+_Note: npm link seems to be messing around with o1js import resulting in multiple errors therefore follow this steps in order to use a local version of this lib:_
 
 ```bash
 # generate your zkapp as you would do normally, see https://docs.minaprotocol.com/zkapps/how-to-write-a-zkapp

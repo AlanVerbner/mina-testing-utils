@@ -28,7 +28,7 @@
     "typescript": "5.1.6"
   },
   "peerDependencies": {
-    "snarkyjs": "0.12.*"
+    "o1js": "0.13.*"
   },
   "dependencies": {
     "cfonts": "3.2.0",

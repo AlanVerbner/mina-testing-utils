@@ -1,4 +1,4 @@
-import { Bool, Field } from "snarkyjs";
+import { Bool, Field } from "o1js";
 import "../../lib/index"
 import "../../lib/types"
 

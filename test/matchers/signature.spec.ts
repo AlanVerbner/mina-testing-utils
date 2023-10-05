@@ -1,4 +1,4 @@
-import { CircuitString, PrivateKey, Signature } from "snarkyjs";
+import { CircuitString, PrivateKey, Signature } from "o1js";
 import "../../lib/index"
 
 describe("signatureMatchers", () => {

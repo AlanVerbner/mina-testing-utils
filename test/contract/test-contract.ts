@@ -1,4 +1,4 @@
-import { Bool, Field, PublicKey, SmartContract, State, UInt64, method, provablePure, state } from "snarkyjs";
+import { Bool, Field, PublicKey, SmartContract, State, UInt64, method, provablePure, state } from "o1js";
 
 class TestContract extends SmartContract {
   @state(Bool) boolState = State<Bool>();

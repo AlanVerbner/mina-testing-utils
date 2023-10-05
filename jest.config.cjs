@@ -7,7 +7,7 @@ module.exports = {
     // '^.+\\.(j)s$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    "<rootDir>/node_modules/(?!(tslib|snarkyjs/node_modules/tslib))",
+    "<rootDir>/node_modules/(?!(tslib|o1js/node_modules/tslib))",
   ],
   resolver: "<rootDir>/jest-resolver.cjs",
   testTimeout: 1_000_000,

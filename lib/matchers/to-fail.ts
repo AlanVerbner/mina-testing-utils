@@ -1,4 +1,4 @@
-import { Mina } from "snarkyjs";
+import { Mina } from "o1js";
 import { expect } from "@jest/globals";
 
 function isPromise(p): p is Promise<unknown> {
