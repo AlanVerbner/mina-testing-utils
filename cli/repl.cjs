@@ -49,24 +49,24 @@ function configureRepl(dynamicImport, genKeyPair) {
   };
   // Define a custom command for the REPL.
   REPL.defineCommand("loadMina", {
-    help: "Loads snarkyjs",
+    help: "Loads o1js",
     action() {
       spinnies.add("load", {
-        text: "Loading snarkyjs...",
+        text: "Loading o1js...",
       });
       this.clearBufferedCommand();
-      dynamicImport("snarkyjs")
-        .then((snarkyjs) => {
-          const local = snarkyjs.Mina.LocalBlockchain({
+      dynamicImport("o1js")
+        .then((o1js) => {
+          const local = o1js.Mina.LocalBlockchain({
             proofsEnabled: false,
           });
-          snarkyjs.Mina.setActiveInstance(local);
+          o1js.Mina.setActiveInstance(local);
 
           const minaContext = {
-            snarkyjs,
+            o1js,
             local,
             testAccounts: local.testAccounts,
-            genKeyPair: genKeyPair(snarkyjs),
+            genKeyPair: genKeyPair(o1js),
           };
 
           Object.assign(this.context.mina, minaContext);
@@ -79,20 +79,20 @@ function configureRepl(dynamicImport, genKeyPair) {
         })
         .catch((err) => {
           console.log(err);
-          spinnies.fail("load", "Error while loading snarkyjs");
+          spinnies.fail("load", "Error while loading o1js");
         });
     },
   });
 }
 
 /**
- * Generates a key pair using snarkyjs.
- * @param {Object} snarkyjs - The snarkyjs library.
+ * Generates a key pair using o1js.
+ * @param {Object} o1js - The o1js library.
  * @returns {Object} - An object containing the private and public keys.
  */
-function genKeyPair(snarkyjs) {
+function genKeyPair(o1js) {
   return () => {
-    const priv = snarkyjs.PrivateKey.random();
+    const priv = o1js.PrivateKey.random();
     const pub = priv.toPublicKey();
 
     return {

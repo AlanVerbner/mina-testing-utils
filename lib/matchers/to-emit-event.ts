@@ -1,4 +1,4 @@
-import { Bool, Mina, Provable, ProvablePure, PublicKey, SmartContract, UInt32 } from "snarkyjs";
+import { Bool, Mina, Provable, ProvablePure, PublicKey, SmartContract, UInt32 } from "o1js";
 import { expect } from "@jest/globals";
 
 const dataToString = (data: any): string => {

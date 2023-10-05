@@ -1,4 +1,4 @@
-import { Bool } from "snarkyjs";
+import { Bool } from "o1js";
 import { expect } from "@jest/globals";
 
 /**

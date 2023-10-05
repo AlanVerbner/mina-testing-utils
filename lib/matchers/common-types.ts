@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals";
-import { Bool, Field, PublicKey, Int64, State, UInt64, UInt32 } from "snarkyjs";
+import { Bool, Field, PublicKey, Int64, State, UInt64, UInt32 } from "o1js";
 import { BoolLike, FieldLike, Int64Like, UInt32Like, UInt64Like } from "../types";
 import { matchesField } from "../utils";
 

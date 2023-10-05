@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals";
-import { Field, PublicKey, Signature, State } from "snarkyjs";
+import { Field, PublicKey, Signature, State } from "o1js";
 import { extractFromState } from "../utils";
 
 /**
